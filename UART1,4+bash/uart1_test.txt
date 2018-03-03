@@ -1,0 +1,51 @@
+https://elinux.org/BBB_RS232_Cape_RevB_Getting_Started
+
+Inside your BBB terminal, enable the UART1 using capemgr:
+
+echo BB-UART1 > /sys/devices/bone_capemgr.*/slots
+cat /sys/devices/bone_capemgr.*/slots
+        0: 54:PF---
+        1: 55:PF---
+        2: 56:PF---
+        3: 57:PF---
+        4: ff:P-O-L Bone-LT-eMMC-2G,00A0,Texas Instrument,BB-BONE-EMMC-2G
+        5: ff:P-O-L Bone-Black-HDMI,00A0,Texas Instrument,BB-BONELT-HDMI
+        7: ff:P-O-L Override Board Name,00A0,Override Manuf,BB-UART1
+
+
+You should now see another ttyO device in /dev:
+ls /dev/ttyO*
+        /dev/ttyO0  /dev/ttyO1
+</syntaxhighlight lang="bash">
+* Configure the new serial device:
+<syntaxhighlight lang="bash">
+
+
+stty -F /dev/ttyO1 115200
+
+
+You can now start writing or listening to RS232 connection via UART1. To output something out of UART1:
+echo hello > /dev/ttyO1
+
+
+
+Example for UART1:
+
+#!/bin/bash
+#Example for UART1:
+echo BB-UART1 > /sys/devices/bone_capemgr.*/slots
+cat /sys/devices/bone_capemgr.*/slots
+ls /dev/ttyO*
+stty -F /dev/ttyO1 115200
+echo hello to UART1 > /dev/ttyO1
+
+
+Example for UART4:
+
+#!/bin/bash
+#Example for UART4:
+echo BB-UART4 > /sys/devices/bone_capemgr.*/slots
+cat /sys/devices/bone_capemgr.*/slots
+ls /dev/ttyO*
+stty -F /dev/ttyO4 115200
+echo hello to UART4 > /dev/ttyO4
